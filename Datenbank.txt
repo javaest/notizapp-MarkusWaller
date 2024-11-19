@@ -1,0 +1,38 @@
+1. Benutzer (users)
+
+Spalte	Datentyp	Beschreibung
+user_id	INT PRIMARY KEY AUTO_INCREMENT	Eindeutige ID des Benutzers
+username	VARCHAR(255) UNIQUE NOT NULL	Benutzername (muss eindeutig sein)
+password	VARCHAR(255) NOT NULL	Passwort (gespeichert als Hash)
+email	VARCHAR(255) UNIQUE	E-Mail-Adresse des Benutzers (optional)
+role	ENUM('admin', 'group_leader', 'user') NOT NULL	Rolle des Benutzers
+
+In Google Sheets exportieren
+2. Gruppen (groups)
+
+Spalte	Datentyp	Beschreibung
+group_id	INT PRIMARY KEY AUTO_INCREMENT	Eindeutige ID der Gruppe
+group_name	VARCHAR(255) NOT NULL	Name der Gruppe
+group_leader_id	INT	ID des Gruppenleiters (Fremdschlüssel auf users.user_id)
+
+In Google Sheets exportieren
+3. Notizen (notes)
+
+Spalte	Datentyp	Beschreibung
+note_id	INT PRIMARY KEY AUTO_INCREMENT	Eindeutige ID der Notiz
+title	VARCHAR(255)	Titel der Notiz
+content	TEXT	Inhalt der Notiz
+created_at	TIMESTAMP	Zeitstempel der Erstellung
+updated_at	TIMESTAMP	Zeitstempel der letzten Änderung
+user_id	INT	ID des Benutzers, der die Notiz erstellt hat (Fremdschlüssel auf users.user_id)
+group_id	INT	ID der Gruppe, zu der die Notiz gehört (Fremdschlüssel auf groups.group_id, kann NULL sein für persönliche Notizen)
+
+In Google Sheets exportieren
+4. Gruppenmitglieder (group_members)
+
+Spalte	Datentyp	Beschreibung
+group_id	INT	ID der Gruppe (Fremdschlüssel auf groups.group_id)
+user_id	INT	ID des Benutzers (Fremdschlüssel auf users.user_id)
+PRIMARY KEY (group_id, user_id)		Kombinierter Primärschlüssel, um doppelte Einträge zu verhindern
+
+In Google Sheets exportieren
